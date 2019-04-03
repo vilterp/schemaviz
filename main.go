@@ -33,7 +33,7 @@ type tableWithFKs struct {
 
 type schema []*tableWithFKs
 
-func loadSchema(conn *sql.DB) ([]*tableWithFKs, error) {
+func loadSchema(conn *sql.DB) (schema, error) {
 	var out schema
 	tables, err := loaders.PgTables(conn, "public", "r")
 	if err != nil {
@@ -52,7 +52,7 @@ func loadSchema(conn *sql.DB) ([]*tableWithFKs, error) {
 	return out, nil
 }
 
-func printDot(schema []*tableWithFKs) {
+func printDot(schema schema) {
 	fmt.Println("digraph schema {")
 
 	fmt.Println("splines=ortho")
