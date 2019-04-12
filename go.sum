@@ -5,6 +5,8 @@ github.com/alexflint/go-scalar v1.0.0/go.mod h1:GpHzbCOZXEKMEcygYQ5n/aa4Aq84zbxj
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/denisenkom/go-mssqldb v0.0.0-20181014144952-4e0d7dc8888f h1:WH0w/R4Yoey+04HhFxqZ6VX6I0d7RMyw5aXQ9UTvQPs=
 github.com/denisenkom/go-mssqldb v0.0.0-20181014144952-4e0d7dc8888f/go.mod h1:xN/JuLBIz4bjkxNmByTiV1IbhfnYb6oo99phBn4Eqhc=
+github.com/emicklei/dot v0.9.2 h1:QE7n6FMotYKA8GaVMgJoYzpgoPUz7ukeZLaxugLhVXc=
+github.com/emicklei/dot v0.9.2/go.mod h1:kZg82Ikwc4pqb31Ct2yb0B7RUqxh3JESIXw2uWSv/xY=
 github.com/gedex/inflector v0.0.0-20170307190818-16278e9db813 h1:Uc+IZ7gYqAf/rSGFplbWBSHaGolEQlNLgMgSE3ccnIQ=
 github.com/gedex/inflector v0.0.0-20170307190818-16278e9db813/go.mod h1:P+oSoE9yhSRvsmYyZsshflcR6ePWYLql6UU1amW13IM=
 github.com/go-sql-driver/mysql v1.4.1 h1:g24URVg0OFbNUTx9qqY1IRZ9D9z3iPyi5zKhQZpNwpA=

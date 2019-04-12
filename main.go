@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	_ "github.com/lib/pq"
+	"github.com/emicklei/dot"
 	"github.com/xo/xo/loaders"
 	"github.com/xo/xo/models"
 )
@@ -23,7 +23,8 @@ func main() {
 		log.Fatal("loading schema: ", err)
 	}
 
-	printDot(schema)
+	g := makeGraph(schema)
+	fmt.Println(g)
 }
 
 type tableWithFKs struct {
@@ -52,25 +53,31 @@ func loadSchema(conn *sql.DB) (schema, error) {
 	return out, nil
 }
 
-func printDot(schema schema) {
-	fmt.Println("digraph schema {")
+func makeGraph(schema schema) *dot.Graph {
+	g := dot.NewGraph(dot.Directed)
+	g.Attr("splines", "ortho")
+	g.Attr("nodesep", "0.4")
+	g.Attr("ranksep", "0.8")
 
-	fmt.Println("splines=ortho")
-	fmt.Println("nodesep=0.4")
-	fmt.Println("ranksep=0.8")
-	fmt.Println(`node [shape="box",style="rounded,filled"]`)
-	fmt.Println(`edge [arrowsize="0.5"]`)
+	tableNodes := map[string]dot.Node{}
 
-	for _, table := range schema {
-		fmt.Printf("\t\"%s\" [color=\"paleturquoise\"];\n", table.table.TableName)
-
-		for _, fk := range table.fks {
-			fmt.Printf(
-				"\t\"%s\" -> \"%s\" [xlabel=\"%s\"];\n",
-				table.table.TableName, fk.RefTableName, fk.ColumnName,
-			)
+	for _, tfk := range schema {
+		tableNode := g.Node(tfk.table.TableName).
+			Box().
+			Attr("color", "paleturquoise").
+			Attr("id", tfk.table.TableName)
+		tableNodes[tfk.table.TableName] = tableNode
+	}
+	for _, tfk := range schema {
+		for _, fk := range tfk.fks {
+			fromName := tfk.table.TableName
+			toName := fk.RefTableName
+			fromNode := tableNodes[fromName]
+			toNode := tableNodes[toName]
+			g.Edge(fromNode, toNode).
+				Attr("xlabel", fk.ColumnName).
+				Attr("id", fmt.Sprintf("%s->%s", fromName, toName))
 		}
 	}
-
-	fmt.Println("}")
+	return g
 }
